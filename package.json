@@ -1,5 +1,24 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
-  }
+    "express": "^4.19.2",
+    "fullcalendar-scheduler": "^6.1.15"
+  },
+  "name": "calendar",
+  "version": "1.0.0",
+  "description": "Calendar project",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khj021101/Web_Calendar.git"
+  },
+  "author": "hajinkim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khj021101/Web_Calendar/issues"
+  },
+  "homepage": "https://github.com/khj021101/Web_Calendar#readme"
 }
