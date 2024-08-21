@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -7,9 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dateClick: function(info){
       console.log("Clicked event occurs : date = " + info.dateStr)
-      calendar.addEvent({title: "memo", start: info.dateStr});
+      addEventToCalendar({start: info.dateStr});
     }
   });
   calendar.render();
 });
-  
+
+function addEventToCalendar(event){
+  calendar.addEvent({title: "memo", start: info.dateStr});
+} 
