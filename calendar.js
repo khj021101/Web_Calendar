@@ -1,19 +1,24 @@
-
+var calendar;
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
+  calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     selectable: true,
-    events:[],
+    events:[{id: '2024-08-21', start: "2024-08-21"}, {id: '2024-08-28', start: "2024-08-28"}],
 
     dateClick: function(info){
-      console.log("Clicked event occurs : date = " + info.dateStr)
-      addEventToCalendar({start: info.dateStr});
+      console.log("Clicked event occurs : date = " + info.dateStr);
+      addEventToCalendar({title: "memo", start: info.dateStr});
+      //removeEventFromCalendar(info.dateStr)
     }
   });
   calendar.render();
 });
 
 function addEventToCalendar(event){
-  calendar.addEvent({title: "memo", start: info.dateStr});
+  calendar.addEvent(event);
 } 
+function removeEventFromCalendar(id){
+  var calendarEvent = calendar.getEventById(id);
+  calendarEvent.remove();
+}
