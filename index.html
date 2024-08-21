@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-    <script src="/js/calendar.js"></script>
+    
     <link rel="stylesheet" href="css/main.css">
     <h1>
       동아리방 예약 현황!
@@ -15,11 +15,12 @@
       <div id="todo_container">
         <p id = "cur_date">일정</p>
         <form id="todoform">
-          <input required type="text" placeholder="Write a ToDo"/>
+          <input id = "todolist_input" required type="text" placeholder="Write a ToDo"/>
         </form>
       </div>
     </div>
     
-
+    <script src="/js/calendar.js"></script>
+    <script src="/js/todolist.js"></script>
   </body>
 </html>
