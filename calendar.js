@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     selectable: true,
-    events:[{id: '2024-08-21', start: "2024-08-21"}, {id: '2024-08-28', start: "2024-08-28"}],
+    events:[{id: '2024-08-21', title: "21학번", start: "2024-08-21"}, {id: '2024-08-28', title: "14학번", start: "2024-08-28"}],
 
     dateClick: function(info){
       console.log("Clicked event occurs : date = " + info.dateStr);
