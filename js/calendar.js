@@ -1,10 +1,12 @@
 var calendar;
+const EVENTDB_KEY = "EVENTLIST"
+
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     selectable: true,
-    events:[{id: '2024-08-21', title: "21학번", start: "2024-08-21"}, {id: '2024-08-28', title: "14학번", start: "2024-08-28"}],
+    events:[],
 
     dateClick: function(info){
       console.log("Clicked event occurs : date = " + info.dateStr);
@@ -14,8 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
       //removeEventFromCalendar(info.dateStr)
     }
   });
+  const savedEventDB = JSON.parse(localStorage.getItem(EVENTDB_KEY));
+  if(savedEventDB){
+    console.log(savedEventDB);
+    savedEventDB.forEach(event => calendar.addEvent(event));
+  }
   calendar.render();
 });
+
+
 
 function addEventToCalendar(event){
   calendar.addEvent(event);

@@ -2,6 +2,7 @@ const todoform = document.querySelector("#todoform");
 const todoInput = document.querySelector("#todolist_input");
 const todoList_ul = document.querySelector("#todolist");
 const curDate_p = document.querySelector("#cur_date");
+var addEventCounter = 0;
 todoform.addEventListener("submit", handleToDoSubmit);
 
 let DBLists = [];
@@ -20,13 +21,13 @@ function clearTodoItems(){
     }
 }
 
-function displayTodoItem(item){
+function displayTodoItem(curTime, item){
     console.log("displayTodoItem is called")
     const todo_cur_li = document.createElement("li");
     const todo_cur_span = document.createElement("span");
     const todo_remove_btn = document.createElement("button");
     todo_remove_btn.addEventListener("click", function(){
-        removeTodoItem(item, todo_cur_li);
+        removeTodoItem(item, curTime, todo_cur_li);
     })
     
     todo_cur_span.innerText = item;
@@ -38,7 +39,8 @@ function displayTodoItem(item){
     todoList_ul.appendChild(todo_cur_li);
 
 }
-function removeTodoItem(item, listItemElement){
+
+function removeTodoItem(item, id, listItemElement){
     console.log("removeTodoItem is called");
     todoList_ul.removeChild(listItemElement);
     const todoList = DBLists.find(list => list.date === CurrentDate);
@@ -46,6 +48,10 @@ function removeTodoItem(item, listItemElement){
         todoList.todos = todoList.todos.filter(todo => todo !== item);
         saveDBListInLocalStorage();
     }
+    var delEvent = calendar.getEventById(id);
+    delEvent.remove();
+    localStorage.setItem(EVENTDB_KEY, JSON.stringify(calendar.getEvents()));
+    calendar.render();
 }
 function handleToDoSubmit(parm){
     console.log("handleToDoSummit is called")
@@ -54,12 +60,9 @@ function handleToDoSubmit(parm){
     console.log("todoInput value : " + curTodo);
     todoInput.value = "";
 
-
-    displayTodoItem(curTodo);
-
-
-    addNewTodo(CurrentDate, curTodo);
-
+    curTime = new Date().toISOString();
+    displayTodoItem(curTime, curTodo);
+    addNewTodo(CurrentDate, curTime, curTodo);
     saveDBListInLocalStorage();
 
 }
@@ -70,16 +73,18 @@ function setCurrentDate(date){
     CurrentDate = date;
 }
 
-function addNewTodo(date, newTodo){
+function addNewTodo(date, curTime, newTodo){
     console.log("addNewTodo is called");
-
+    addEventCounter = addEventCounter + 1;
     curTodoList = DBLists.find(list => list.date === date)
     if(!curTodoList){
         curTodoList = new TodoList(date);
         DBLists.push(curTodoList);
     }
     curTodoList.todos.push(newTodo);
-    
+    curTodoList.todos.sort((a, b) => a.localeCompare(b));
+    calendar.addEvent({id: curTime, title: newTodo, start: date});
+    localStorage.setItem(EVENTDB_KEY, JSON.stringify(calendar.getEvents()));
 }
 
 function saveDBListInLocalStorage(){
@@ -105,6 +110,7 @@ function loadCurrentTodo(){
     }
     DBLists.forEach(tlist => {
         if(tlist.date === CurrentDate){
+            tlist.todos.sort((a, b) => a.localeCompare(b));
             tlist.todos.forEach(displayTodoItem)
         }
     })
