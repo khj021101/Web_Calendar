@@ -5,19 +5,23 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/todolist.css">
     <h1>
       동아리방 예약 현황!
     </h1>
   </head>
   <body>
     <div id = "container">
-      <div id='calendar'></div>
       <div id="todo_container">
-        <p id = "cur_date">일정</p>
+        <p id = "cur_date">----</p>
         <form id="todoform">
-          <input id = "todolist_input" required type="text" placeholder="Write a ToDo"/>
+          <input id = "todolist_input" required type="text" placeholder="ex> 13:00-15:00 노베이스팀 합주"/>
         </form>
+        <ul id = "todolist">
+        </ul>
       </div>
+      <div id='calendar'></div>
+      
     </div>
     
     <script src="/js/calendar.js"></script>

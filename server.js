@@ -6,7 +6,7 @@ var path = require('path');
 app.use(express.static(path.join(__dirname, '/')));
 
 app.listen(port, function(){
-    console.log('listening on ${port}')
+    console.log('listening on 8080')
 })
 app.get('/', function(request, response){
     response.sendFile(__dirname + '/index.html')

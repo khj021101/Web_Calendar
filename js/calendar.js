@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dateClick: function(info){
       console.log("Clicked event occurs : date = " + info.dateStr);
-      addEventToCalendar({title: "memo", start: info.dateStr});
+      setCurrentDate(info.dateStr)
+      loadCurrentTodo();
+      //addEventToCalendar({title: "memo", start: info.dateStr});
       //removeEventFromCalendar(info.dateStr)
     }
   });

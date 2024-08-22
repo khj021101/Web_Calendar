@@ -1,0 +1,61 @@
+#todo_container {
+    display: flex;
+    flex-direction: column;
+    border: 0.5rem solid rgba(0,0,0, 0.3);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 1);
+    margin: 0 auto;
+    justify-items: center;
+    overflow: visible;
+}
+
+#cur_date{
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 0px;
+
+}
+#todoform{
+    margin: 0 auto;
+    padding: 10px;
+    width: 300px;
+}
+#todolist{
+    margin: 0 auto;
+    padding: 10px;
+}
+#todolist li{
+    color: black;
+    font-size: 1.2rem;
+    width: 300px;
+    margin: 0 auto;
+}
+#todolist li:hover{
+    color: orange;
+}
+#todolist button{
+    position: absolute;
+    right: 17%;
+    color: white;
+}
+#todolist button:hover{
+    color:orange;
+}
+#todolist button:focus{
+    color: rgb(175, 125, 33);
+}
+
+#todoform input{
+    text-align: center;
+    transition: all, 1s;
+    width: 300px;
+}
+#todoform input:hover{
+    background-color: aliceblue;
+}
+#todoform input:focus{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+#todoform input::-webkit-input-placeholder{
+    color: grey;
+}
