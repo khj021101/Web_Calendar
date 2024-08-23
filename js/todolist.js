@@ -11,7 +11,7 @@ const DBLIST_KEY = "DBLISTS"
 
 function TodoList(date){
     this.date = date;
-    this.todos = [];
+    this.todos = [];//안에 딕셔너리로 넣자.
 }
 
 function clearTodoItems(){
@@ -37,21 +37,24 @@ function displayTodoItem(curTime, item){
     todo_cur_li.appendChild(todo_cur_span);
     todo_cur_li.appendChild(todo_remove_btn);
     todoList_ul.appendChild(todo_cur_li);
-
 }
 
-function removeTodoItem(item, id, listItemElement){
+function removeTodoItem(item, curTime, listItemElement){
     console.log("removeTodoItem is called");
     todoList_ul.removeChild(listItemElement);
     const todoList = DBLists.find(list => list.date === CurrentDate);
     if(todoList){
-        todoList.todos = todoList.todos.filter(todo => todo !== item);
+        todoList.todos = todoList.todos.filter(element => element.id !== curTime);
         saveDBListInLocalStorage();
     }
-    var delEvent = calendar.getEventById(id);
+    const delEvent = calendar.getEventById(curTime);
     delEvent.remove();
-    localStorage.setItem(EVENTDB_KEY, JSON.stringify(calendar.getEvents()));
-    calendar.render();
+    const event = EventDB.find(element => element.id === curTime);
+    if(event){
+        EventDB = EventDB.filter(element => element.id != curTime);
+    }
+    saveEventDBInLocalStorage();
+
 }
 function handleToDoSubmit(parm){
     console.log("handleToDoSummit is called")
@@ -60,11 +63,12 @@ function handleToDoSubmit(parm){
     console.log("todoInput value : " + curTodo);
     todoInput.value = "";
 
-    curTime = new Date().toISOString();
-    displayTodoItem(curTime, curTodo);
+    const curTime = new Date().toISOString();
+    
     addNewTodo(CurrentDate, curTime, curTodo);
     saveDBListInLocalStorage();
-
+    displayTodoItem(curTime, curTodo);
+    saveEventDBInLocalStorage();
 }
 
 function setCurrentDate(date){
@@ -81,10 +85,10 @@ function addNewTodo(date, curTime, newTodo){
         curTodoList = new TodoList(date);
         DBLists.push(curTodoList);
     }
-    curTodoList.todos.push(newTodo);
-    curTodoList.todos.sort((a, b) => a.localeCompare(b));
+    curTodoList.todos.push({id: curTime, todo: newTodo});
     calendar.addEvent({id: curTime, title: newTodo, start: date});
-    localStorage.setItem(EVENTDB_KEY, JSON.stringify(calendar.getEvents()));
+    EventDB.push({id: curTime, title: newTodo, start: date});
+
 }
 
 function saveDBListInLocalStorage(){
@@ -92,14 +96,16 @@ function saveDBListInLocalStorage(){
     localStorage.setItem(DBLIST_KEY, JSON.stringify(DBLists));
 
 }
-
+function saveEventDBInLocalStorage(){
+    console.log("saveEventDB is called");
+    localStorage.setItem(EVENTDB_KEY, JSON.stringify(EventDB));
+}
 function loadCurrentTodo(){
     console.log("loadCurrentTodo is called");
     //todolist를 클리어해준다.
     clearTodoItems();
     // 클릭된 date값이 정해지면 DBlist에서 새로 불러온다.
     const savedDBLists = localStorage.getItem(DBLIST_KEY);
-
     if(savedDBLists !== null){
         DBLists = JSON.parse(savedDBLists);
     }
@@ -110,8 +116,7 @@ function loadCurrentTodo(){
     }
     DBLists.forEach(tlist => {
         if(tlist.date === CurrentDate){
-            tlist.todos.sort((a, b) => a.localeCompare(b));
-            tlist.todos.forEach(displayTodoItem)
+            tlist.todos.forEach(element => displayTodoItem(element.id, element.todo))
         }
     })
 

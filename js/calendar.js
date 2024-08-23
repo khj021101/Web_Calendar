@@ -1,4 +1,5 @@
 var calendar;
+let EventDB = [];
 const EVENTDB_KEY = "EVENTLIST"
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -19,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const savedEventDB = JSON.parse(localStorage.getItem(EVENTDB_KEY));
   if(savedEventDB){
     console.log(savedEventDB);
-    savedEventDB.forEach(event => calendar.addEvent(event));
+    EventDB = savedEventDB;
+    EventDB.forEach(event => calendar.addEvent(event));
   }
   calendar.render();
 });
