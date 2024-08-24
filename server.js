@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
+    host: 'band.dothome.co.kr',
+    user: 'band',
     password: 'khj021101!',
-    database: 'CalendarDB'
+    database: 'band'
 })
 connection.connect(err => {
     if(err){
