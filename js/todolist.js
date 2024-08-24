@@ -48,8 +48,14 @@ function removeTodoItem(item, curTime, listItemElement){
     // }
     const delEvent = calendar.getEventById(curTime);
     delEvent.remove();
-    fetch(`/todos/${curTime}`, {
-        method: 'delete',
+    fetch('index.php', {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            id: curTime
+        })
     })
     .then(()=>{
         console.log(`Todo with ID ${curTime} deleted`);
@@ -94,12 +100,16 @@ function addNewTodo(date, curTime, newTodo){
     // curTodoList.todos.push({id: curTime, todo: newTodo});
     // calendar.addEvent({id: curTime, title: newTodo, start: date});
     // EventDB.push({id: curTime, title: newTodo, start: date});
-    fetch('/todos', {
+    fetch('index.php', {
         method: 'POST',
         headers:{
-            'Content-Type':'application/json',
+            'Content-Type':'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({id: curTime, title: newTodo, start: date})
+        body: new URLSearchParams({
+            id: curTime,
+            title: newTodo,
+            start: date
+        })
     })
     .then(response => response.json())
     .then(data => {
@@ -137,7 +147,7 @@ function loadCurrentTodo(){
     //         tlist.todos.forEach(element => displayTodoItem(element.id, element.todo))
     //     }
     // })
-    fetch('/todos')
+    fetch('index.php')
         .then(response => response.json())
         .then(data => {
             data.forEach(todo => {
