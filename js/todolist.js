@@ -170,7 +170,7 @@ function loadTodoInit(){
 
     //날짜 초기화
     var today = new Date();
-    var formattedToday = today.toLocaleDateString('en-CA')
+    var formattedToday = today.toLocaleDateString('en-CA', {timeZone: 'Asia/Seoul'}).replace(/\//g, '-');
     console.log(formattedToday);
     setCurrentDate(formattedToday);
     // DBList 불러오기

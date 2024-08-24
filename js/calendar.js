@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     events:[],
     eventClick: function(info){
       console.log("Clicked event object occurs : event =  " + info.event.title);
-      setCurrentDate(info.event.start.toLocaleDateString('en-CA'))
+      setCurrentDate(info.event.start.toLocaleDateString('en-CA', {timeZone: 'Asia/Seoul'}).replace(/\//g, '-'));
       loadCurrentTodo();
     },
     dateClick: function(info){
