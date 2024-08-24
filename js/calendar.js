@@ -8,7 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initialView: 'dayGridMonth',
     selectable: true,
     events:[],
-
+    eventClick: function(info){
+      console.log("Clicked event object occurs : event =  " + info.event.title);
+      setCurrentDate(info.event.start.toLocaleDateString('en-CA'))
+      loadCurrentTodo();
+    },
     dateClick: function(info){
       console.log("Clicked event occurs : date = " + info.dateStr);
       setCurrentDate(info.dateStr)
@@ -16,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
       //addEventToCalendar({title: "memo", start: info.dateStr});
       //removeEventFromCalendar(info.dateStr)
     }
+    
   });
   // const savedEventDB = JSON.parse(localStorage.getItem(EVENTDB_KEY));
   // if(savedEventDB){
