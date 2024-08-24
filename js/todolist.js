@@ -5,7 +5,6 @@ const curDate_p = document.querySelector("#cur_date");
 //var addEventCounter = 0;
 todoform.addEventListener("submit", handleToDoSubmit);
 
-// let DBLists = [];
 let CurrentDate;
 // const DBLIST_KEY = "DBLISTS"
 
@@ -49,6 +48,13 @@ function removeTodoItem(item, curTime, listItemElement){
     // }
     const delEvent = calendar.getEventById(curTime);
     delEvent.remove();
+    fetch(`/todos/${curTime}`, {
+        method: 'delete',
+    })
+    .then(()=>{
+        console.log(`Todo with ID ${curTime} deleted`);
+    })
+    .catch(error => console.error('Error deleting todo:', error));
     // const event = EventDB.find(element => element.id === curTime);
     // if(event){
     //     EventDB = EventDB.filter(element => element.id != curTime);
@@ -67,7 +73,7 @@ function handleToDoSubmit(parm){
     
     addNewTodo(CurrentDate, curTime, curTodo);
     // saveDBListInLocalStorage();
-    displayTodoItem(curTime, curTodo);
+    //displayTodoItem(curTime, curTodo);
     // saveEventDBInLocalStorage();
 }
 
@@ -93,12 +99,12 @@ function addNewTodo(date, curTime, newTodo){
         headers:{
             'Content-Type':'application/json',
         },
-        body: JSON.stringify({curTime, newTodo, date})
+        body: JSON.stringify({id: curTime, title: newTodo, start: date})
     })
     .then(response => response.json())
     .then(data => {
         console.log('Todo added', data);
-        displayTodoItem(data.id, data.title);
+        calendar.addEvent({id: curTime, title: newTodo, start: date});
     })
     .catch(error => console.error('Error adding todo:', error));
 }
@@ -131,6 +137,15 @@ function loadCurrentTodo(){
     //         tlist.todos.forEach(element => displayTodoItem(element.id, element.todo))
     //     }
     // })
+    fetch('/todos')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(todo => {
+                if(todo.start === CurrentDate)
+                    {displayTodoItem(todo.id, todo.title);}
+            });
+        })
+        .catch(error => console.error('Error loading todos:', error));
 
 }
 

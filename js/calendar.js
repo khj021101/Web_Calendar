@@ -17,12 +17,21 @@ document.addEventListener('DOMContentLoaded', function() {
       //removeEventFromCalendar(info.dateStr)
     }
   });
-  const savedEventDB = JSON.parse(localStorage.getItem(EVENTDB_KEY));
-  if(savedEventDB){
-    console.log(savedEventDB);
-    EventDB = savedEventDB;
-    EventDB.forEach(event => calendar.addEvent(event));
-  }
+  // const savedEventDB = JSON.parse(localStorage.getItem(EVENTDB_KEY));
+  // if(savedEventDB){
+  //   console.log(savedEventDB);
+  //   EventDB = savedEventDB;
+  //   EventDB.forEach(event => calendar.addEvent(event));
+  // }
+  // calendar.render();
+  fetch('/todos')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(todo => {
+        calendar.addEvent(todo);
+      })
+    })
+    .catch(error => console.error('Error loading todos:', error));
   calendar.render();
 });
 
