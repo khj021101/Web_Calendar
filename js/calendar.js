@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   //   EventDB.forEach(event => calendar.addEvent(event));
   // }
   // calendar.render();
-  fetch('/todos')
+  fetch('./index.php')
     .then(response => response.json())
     .then(data => {
       data.forEach(todo => {

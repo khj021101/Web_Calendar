@@ -48,7 +48,7 @@ function removeTodoItem(item, curTime, listItemElement){
     // }
     const delEvent = calendar.getEventById(curTime);
     delEvent.remove();
-    fetch('index.php', {
+    fetch('./index.php', {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/x-www-form-urlencoded',
@@ -79,7 +79,7 @@ function handleToDoSubmit(parm){
     
     addNewTodo(CurrentDate, curTime, curTodo);
     // saveDBListInLocalStorage();
-    //displayTodoItem(curTime, curTodo);
+    displayTodoItem(curTime, curTodo);
     // saveEventDBInLocalStorage();
 }
 
@@ -100,7 +100,7 @@ function addNewTodo(date, curTime, newTodo){
     // curTodoList.todos.push({id: curTime, todo: newTodo});
     // calendar.addEvent({id: curTime, title: newTodo, start: date});
     // EventDB.push({id: curTime, title: newTodo, start: date});
-    fetch('index.php', {
+    fetch('./index.php', {
         method: 'POST',
         headers:{
             'Content-Type':'application/x-www-form-urlencoded',
@@ -115,6 +115,7 @@ function addNewTodo(date, curTime, newTodo){
     .then(data => {
         console.log('Todo added', data);
         calendar.addEvent({id: curTime, title: newTodo, start: date});
+
     })
     .catch(error => console.error('Error adding todo:', error));
 }
@@ -147,9 +148,14 @@ function loadCurrentTodo(){
     //         tlist.todos.forEach(element => displayTodoItem(element.id, element.todo))
     //     }
     // })
-    fetch('index.php')
+    fetch('./index.php')
         .then(response => response.json())
         .then(data => {
+            data.sort((a,b) => {
+                if(a.title < b.title) return -1;
+                if(a.title > b.title) return 1;
+                return 0;
+            });
             data.forEach(todo => {
                 if(todo.start === CurrentDate)
                     {displayTodoItem(todo.id, todo.title);}
